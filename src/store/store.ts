@@ -1,10 +1,3 @@
-import React, {
-	createContext,
-	useContext,
-	useReducer,
-	useCallback,
-	useMemo,
-} from "react";
 import { Reducer, Middleware, MiddlewareAPI, Action } from "../type";
 
 export class Store<S = any> {
