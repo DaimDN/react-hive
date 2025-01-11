@@ -1,0 +1,21 @@
+{
+	"name": "react-hive",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"types": "src/index.d.ts",
+	"scripts": {
+		"test": "jest"
+	},
+	"keywords": [
+		"react",
+		"state management",
+		"context",
+		"reducer",
+		"redux",
+		"hooks"
+	],
+	"author": "Abdul Daim",
+	"license": "MIT",
+	"devDependencies": {}
+}
