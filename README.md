@@ -1,4 +1,3 @@
-````markdown
 # react-hive
 
 A powerful and lightweight state management library built for React, designed to
@@ -24,7 +23,6 @@ Install the package via npm or yarn:
 ```bash
 npm install react-hive
 ```
-````
 
 ## Usage
 
@@ -200,5 +198,4 @@ MIT License. See the [LICENSE](LICENSE) file for more information.
 
 ```
 
-This updated `README.md` now refers to your package name **react-hive** and includes the proper usage details. It maintains a clean structure and provides necessary information on how to integrate and use your state management library.
 ```
