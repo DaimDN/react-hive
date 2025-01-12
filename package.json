@@ -1,11 +1,14 @@
 {
 	"name": "react-hive",
 	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"types": "src/index.d.ts",
+	"description": "react-hive is a powerful and lightweight state management solution designed for React. It offers a centralized store, support for middleware, asynchronous actions, and easy state access through custom React hooks. Perfect for managing complex state logic in both small and large-scale applications.",
+	"main": "dist/index.js",
+	"types": "dist/types/index.d.ts",
 	"scripts": {
-		"test": "jest"
+		"test": "jest",
+		"build": "tsc && babel src --out-dir dist --extensions .ts,.tsx --copy-files",
+		"start": "npm run build && npm run watch",
+		"watch": "tsc --watch"
 	},
 	"keywords": [
 		"react",
@@ -17,5 +20,16 @@
 	],
 	"author": "Abdul Daim",
 	"license": "MIT",
-	"devDependencies": {}
+	"devDependencies": {
+		"@babel/preset-react": "^7.26.3",
+		"@babel/preset-typescript": "^7.26.0",
+		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/react": "^16.1.0",
+		"@types/jest": "^29.5.14",
+		"@types/react": "^19.0.5",
+		"jest": "^29.7.0",
+		"jest-environment-jsdom": "^29.7.0",
+		"jsdom": "^26.0.0",
+		"typescript": "^5.7.3"
+	}
 }

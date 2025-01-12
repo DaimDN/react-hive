@@ -1,10 +1,12 @@
-import { Reducer } from "../type";
+// src/createPartial.ts
 
-export function createPartial<S = any>(config: any) {
+import { Partial, Reducer } from "./types";
+
+export function createPartial<S = any>(config: Partial<S>) {
 	const { name, initialState, reducers, selectors = {} } = config;
 
 	const actionCreators: { [key: string]: any } = {};
-	const reducerMap: { [key: string]: any } = {};
+	const reducerMap: { [key: string]: Reducer<S> } = {};
 
 	// Create action creators and reducers
 	Object.entries(reducers).forEach(([key, reducer]) => {

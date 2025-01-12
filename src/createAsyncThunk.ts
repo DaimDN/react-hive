@@ -1,4 +1,7 @@
-import { AsyncThunk } from "../type";
+// src/createAsyncThunk.ts
+
+import { Action, AsyncThunk } from "./types";
+
 export function createAsyncThunk<P = void, R = any>(
 	type: string,
 	payloadCreator: (payload: P) => Promise<R>,

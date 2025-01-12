@@ -1,4 +1,6 @@
-import { Reducer, Middleware, MiddlewareAPI, Action } from "../type";
+// src/store/index.ts
+
+import { Action, Reducer, Middleware, MiddlewareAPI } from "../types";
 
 export class Store<S = any> {
 	private state: S;
@@ -37,7 +39,7 @@ export class Store<S = any> {
 			const chain = this.middleware.map((middleware) =>
 				middleware(middlewareAPI),
 			);
-			dispatchFunction = chain.reduce((a, b) => (action) => b(a as any))(
+			dispatchFunction = chain.reduce((a: any, b) => (action) => b(a))(
 				dispatchFunction,
 			);
 		}
