@@ -1,4 +1,4 @@
-# react-hive
+# react-nova
 
 A powerful and lightweight state management library built for React, designed to
 provide a centralized store, powerful selectors, async actions, and middleware

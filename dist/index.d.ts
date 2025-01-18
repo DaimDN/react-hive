@@ -1,7 +1,12 @@
-export { Store } from "./store";
-export { StoreProvider, useStore, useDispatch, useSelector } from "./context";
-export { createAsyncThunk } from "./createAsyncThunk";
-export { createPartial } from "./createPartial";
-export { thunkMiddleware, loggerMiddleware } from "./middleware";
-export * from "./types";
+export { Store } from "../src/store";
+export {
+	StoreProvider,
+	useStore,
+	useDispatch,
+	useSelector,
+} from "../src/context";
+export { createAsyncThunk } from "../src/createAsyncThunk";
+export { createPartial } from "../src/createPartial";
+export { thunkMiddleware, loggerMiddleware } from "../src/middleware";
+export * from "../src/types";
 //# sourceMappingURL=index.d.ts.map
