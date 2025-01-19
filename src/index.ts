@@ -1,8 +1,21 @@
 // src/index.ts
+export { createPartial } from "./core/createPartial";
+export { combinePartials } from "./core/combinePartials";
+export { NovaProvider, NovaContext } from "./core/provider";
+export { useNova, usePartial, useSelector, useActions } from "./core/hooks";
 
-export { Store } from "./store";
-export { StoreProvider, useStore, useDispatch, useSelector } from "./context";
-export { createAsyncThunk } from "./createAsyncThunk";
-export { createPartial } from "./createPartial";
-export { thunkMiddleware, loggerMiddleware } from "./middleware";
-export * from "./types";
+// Export types
+export type {
+	AnyAction,
+	Dispatch,
+	Middleware,
+	MiddlewareAPI,
+	Reducer,
+	ActionCreator,
+	ActionCreatorsMapObject,
+	ReducersMapObject,
+	Partial,
+	Store,
+	NovaState,
+	NovaContextType,
+} from "./types";

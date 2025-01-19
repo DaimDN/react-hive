@@ -1,7 +1,7 @@
 {
-	"name": "react-hive",
+	"name": "react-nova",
 	"version": "1.0.0",
-	"description": "react-hive is a powerful and lightweight state management solution designed for React. It offers a centralized store, support for middleware, asynchronous actions, and easy state access through custom React hooks. Perfect for managing complex state logic in both small and large-scale applications.",
+	"description": "react-nova is a powerful and lightweight state management solution designed for React. It offers a centralized store, support for middleware, asynchronous actions, and easy state access through custom React hooks. Perfect for managing complex state logic in both small and large-scale applications.",
 	"main": "dist/index.js",
 	"types": "dist/types/index.d.ts",
 	"files": [

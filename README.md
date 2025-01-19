@@ -1,201 +1,182 @@
-# react-nova
+# React Nova
 
-A powerful and lightweight state management library built for React, designed to
-provide a centralized store, powerful selectors, async actions, and middleware
-support for both large-scale and small-scale applications with simple and
-complex state management requirements.
+A lightweight, type-safe state management library for React applications, built
+on top of React Context and inspired by Redux.
 
 ## Features
 
-- **Centralized Store**: Manage your application's state in a single store.
-- **Selectors**: Efficiently select pieces of state using selectors.
-- **Dispatching Actions**: Dispatch actions to update the state and trigger side
-  effects.
-- **Middleware Support**: Extend functionality using custom middleware (e.g.,
-  logging, async actions).
-- **React Hooks**: Use React hooks to access the store, dispatch actions, and
-  select state.
+- 🎯 TypeScript-first approach
+- 🔄 Redux-like pattern with simpler boilerplate
+- 📦 Built on React Context API - no external dependencies
+- 🚀 Modular state management using partials
+- 🎨 Built-in middleware support
+- 💡 Easy to understand and use
 
 ## Installation
 
-Install the package via npm or yarn:
-
 ```bash
-npm install react-hive
+npm install react-nova
+# or
+yarn add react-nova
 ```
 
-## Usage
+## Quick Start
 
-### 1. Create a Store
+### 1. Create a Partial
 
-To create a store, define a reducer, an initial state, and any middleware you
-need.
+```typescript
+// partials/counterPartial.ts
+import { createPartial } from "react-nova";
 
-```ts
-import { Store } from "react-hive";
+interface CounterState {
+	count: number;
+	loading: boolean;
+}
 
-const initialState = { count: 0 };
-
-const reducer = (state = initialState, action) => {
-	switch (action.type) {
-		case "increment":
-			return { count: state.count + 1 };
-		default:
-			return state;
-	}
+const initialState: CounterState = {
+	count: 0,
+	loading: false,
 };
 
-const store = new Store(reducer, initialState);
-```
-
-### 2. Wrap Your Application with `StoreProvider`
-
-The `StoreProvider` component should wrap your app to provide access to the
-store.
-
-```tsx
-import React from "react";
-import { StoreProvider } from "react-hive";
-import { store } from "./store";
-
-const App = () => (
-	<StoreProvider store={store}>
-		<YourAppComponents />
-	</StoreProvider>
-);
-```
-
-### 3. Using `useStore`, `useSelector`, and `useDispatch`
-
-#### `useStore`
-
-Access the entire store in any component:
-
-```tsx
-import { useStore } from "react-hive";
-
-const MyComponent = () => {
-	const store = useStore();
-	console.log(store.getState());
-	return <div>Current count: {store.getState().count}</div>;
-};
-```
-
-#### `useSelector`
-
-Select specific pieces of state:
-
-```tsx
-import { useSelector } from "react-hive";
-
-const MyComponent = () => {
-	const count = useSelector((state) => state.count);
-	return <div>Current count: {count}</div>;
-};
-```
-
-#### `useDispatch`
-
-Dispatch actions to update the state:
-
-```tsx
-import { useDispatch } from "react-hive";
-
-const MyComponent = () => {
-	const dispatch = useDispatch();
-
-	const increment = () => dispatch({ type: "increment" });
-
-	return <button onClick={increment}>Increment</button>;
-};
-```
-
-## Creating Async Thunks
-
-You can create asynchronous actions using `createAsyncThunk`.
-
-```ts
-import { createAsyncThunk } from "react-hive";
-
-const fetchData = createAsyncThunk("fetchData", async () => {
-	const response = await fetch("/api/data");
-	return response.json();
+export const counterPartial = createPartial("counter", initialState, {
+	increment: (state) => ({
+		...state,
+		count: state.count + 1,
+	}),
+	decrement: (state) => ({
+		...state,
+		count: state.count - 1,
+	}),
 });
 ```
 
-## Middleware
+### 2. Create Store
 
-You can add middleware for logging, async actions, and more.
+```typescript
+// store.ts
+import { combinePartials } from "react-nova";
+import { counterPartial } from "./partials/counterPartial";
 
-```ts
-import { loggerMiddleware } from "react-hive";
-
-const store = new Store(reducer, initialState, [loggerMiddleware]);
+export const store = combinePartials([counterPartial]);
 ```
 
-## Types
+### 3. Add Provider
 
-react-hive comes with fully typed definitions for the following:
+```typescript
+// App.tsx
+import { NovaProvider } from 'react-nova';
+import { store } from './store';
 
-- `Store`: The core store class.
-- `Dispatch`: The dispatch function to send actions.
-- `Selector`: A function to select a piece of state.
-- `Middleware`: Functions to extend the store with custom logic.
+function App() {
+  return (
+    <NovaProvider store={store}>
+      <YourComponents />
+    </NovaProvider>
+  );
+}
+```
 
-## Example
+### 4. Use in Components
 
-Here's a complete example using the store, selectors, and dispatch:
+```typescript
+import { usePartial, useActions } from 'react-nova';
+import { counterPartial } from '../partials/counterPartial';
 
-```tsx
-import React from "react";
-import { StoreProvider, useStore, useSelector, useDispatch } from "react-hive";
+function Counter() {
+  const [state, dispatch] = usePartial<CounterState>('counter');
+  const { increment, decrement } = useActions(counterPartial.actions);
 
-const initialState = { count: 0 };
+  return (
+    <div>
+      <h2>Count: {state.count}</h2>
+      <button onClick={() => increment()}>+</button>
+      <button onClick={() => decrement()}>-</button>
+    </div>
+  );
+}
+```
 
-const reducer = (state = initialState, action) => {
-	switch (action.type) {
-		case "increment":
-			return { count: state.count + 1 };
-		default:
-			return state;
+## Core Concepts
+
+### Partials
+
+Similar to Redux slices, partials are the building blocks of your state
+management. Each partial represents a slice of your state with its own actions
+and reducers.
+
+### Actions
+
+Actions in React Nova are created automatically when you define your reducers in
+the partial. They maintain type safety throughout your application.
+
+### Hooks
+
+- `usePartial`: Access state and dispatch for a specific partial
+- `useActions`: Get bound action creators
+- `useSelector`: Select specific data from state
+- `useNova`: Access entire state and dispatch
+
+## Advanced Usage
+
+### Custom Middleware
+
+```typescript
+const logger = ({ getState }) => next => action => {
+  console.log('prev state', getState());
+  console.log('action', action);
+  const result = next(action);
+  console.log('next state', getState());
+  return result;
+};
+
+// Use in provider
+<NovaProvider store={store} middleware={[logger]}>
+  <App />
+</NovaProvider>
+```
+
+### Async Actions
+
+```typescript
+const fetchTodos = () => async (dispatch) => {
+	dispatch(todoPartial.actions.setLoading(true));
+	try {
+		const response = await fetch("/api/todos");
+		const todos = await response.json();
+		dispatch(todoPartial.actions.setTodos(todos));
+	} finally {
+		dispatch(todoPartial.actions.setLoading(false));
 	}
 };
-
-const store = new Store(reducer, initialState);
-
-const Counter = () => {
-	const count = useSelector((state) => state.count);
-	const dispatch = useDispatch();
-
-	return (
-		<div>
-			<p>Count: {count}</p>
-			<button onClick={() => dispatch({ type: "increment" })}>Increment</button>
-		</div>
-	);
-};
-
-const App = () => (
-	<StoreProvider store={store}>
-		<Counter />
-	</StoreProvider>
-);
-
-export default App;
 ```
+
+### Using Selectors
+
+```typescript
+const TodoCount = () => {
+  const incompleteTodos = useSelector(state =>
+    state.todos.items.filter(todo => !todo.completed)
+  );
+
+  return <div>Remaining: {incompleteTodos.length}</div>;
+};
+```
+
+## Best Practices
+
+1. **Type Everything**: Make use of TypeScript to ensure type safety across your
+   application.
+2. **Organize by Feature**: Group your partials by feature rather than by type.
+3. **Keep Partials Small**: Each partial should manage a specific piece of
+   functionality.
+4. **Use Selectors**: For complex state derivations, use selectors to improve
+   performance.
 
 ## Contributing
 
-1. Fork the repository.
-2. Create your branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -am 'Add feature'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Open a pull request.
+Contributions are welcome! Please read our contributing guidelines before
+submitting PRs.
 
 ## License
 
-MIT License. See the [LICENSE](LICENSE) file for more information.
-
-```
-
-```
+MIT

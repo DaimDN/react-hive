@@ -1,42 +1,55 @@
 // src/types/index.ts
 
-export type Action<T = any> = {
+export type AnyAction = {
 	type: string;
-	payload?: T;
-	meta?: any;
-	error?: boolean;
+	payload?: any;
 };
 
-export type Reducer<S = any, A extends Action = Action> = (
-	state: S,
-	action: A,
-) => S;
+export type Dispatch = (action: AnyAction | Function) => any;
 
-export type MiddlewareAPI<S = any> = {
-	getState: () => S;
+export type MiddlewareAPI = {
+	getState: () => any;
 	dispatch: Dispatch;
 };
 
+export type NextFn = (action: AnyAction) => any;
+
 export type Middleware = (
 	api: MiddlewareAPI,
-) => (next: Dispatch) => (action: Action) => any;
+) => (next: NextFn) => (action: AnyAction) => any;
 
-export type Dispatch = (action: Action) => any;
+export type Reducer<S = any> = (state: S | undefined, action: AnyAction) => S;
 
-export type Selector<S = any, R = any> = (state: S) => R;
+export type ActionCreator<P = any> = {
+	(payload: P): AnyAction;
+	type: string;
+};
 
-export type AsyncThunk<R = any> = (
-	dispatch: Dispatch,
-	getState: () => any,
-) => Promise<R>;
+export type ActionCreatorsMapObject = {
+	[key: string]: ActionCreator;
+};
 
-export interface Partial<S = any> {
+export type ReducersMapObject<S = any> = {
+	[key: string]: (state: S | undefined, payload: any) => S;
+};
+
+export type Partial<S = any> = {
 	name: string;
+	reducer: Reducer<S>;
+	actions: ActionCreatorsMapObject;
+	actionTypes: { [key: string]: string };
+};
+
+export type Store<S = any> = {
 	initialState: S;
-	reducers: {
-		[key: string]: (state: S, action: Action) => S;
-	};
-	selectors?: {
-		[key: string]: Selector<S>;
-	};
-}
+	reducer: Reducer<S>;
+};
+
+export type NovaState = {
+	[key: string]: any;
+};
+
+export type NovaContextType = {
+	state: NovaState;
+	dispatch: Dispatch;
+};

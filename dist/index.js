@@ -3,33 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {
-  Store: true,
-  StoreProvider: true,
-  useStore: true,
-  useDispatch: true,
-  useSelector: true,
-  createAsyncThunk: true,
-  createPartial: true,
-  thunkMiddleware: true,
-  loggerMiddleware: true
-};
-Object.defineProperty(exports, "Store", {
+Object.defineProperty(exports, "NovaContext", {
   enumerable: true,
   get: function () {
-    return _store.Store;
+    return _provider.NovaContext;
   }
 });
-Object.defineProperty(exports, "StoreProvider", {
+Object.defineProperty(exports, "NovaProvider", {
   enumerable: true,
   get: function () {
-    return _context.StoreProvider;
+    return _provider.NovaProvider;
   }
 });
-Object.defineProperty(exports, "createAsyncThunk", {
+Object.defineProperty(exports, "combinePartials", {
   enumerable: true,
   get: function () {
-    return _createAsyncThunk.createAsyncThunk;
+    return _combinePartials.combinePartials;
   }
 });
 Object.defineProperty(exports, "createPartial", {
@@ -38,50 +27,31 @@ Object.defineProperty(exports, "createPartial", {
     return _createPartial.createPartial;
   }
 });
-Object.defineProperty(exports, "loggerMiddleware", {
+Object.defineProperty(exports, "useActions", {
   enumerable: true,
   get: function () {
-    return _middleware.loggerMiddleware;
+    return _hooks.useActions;
   }
 });
-Object.defineProperty(exports, "thunkMiddleware", {
+Object.defineProperty(exports, "useNova", {
   enumerable: true,
   get: function () {
-    return _middleware.thunkMiddleware;
+    return _hooks.useNova;
   }
 });
-Object.defineProperty(exports, "useDispatch", {
+Object.defineProperty(exports, "usePartial", {
   enumerable: true,
   get: function () {
-    return _context.useDispatch;
+    return _hooks.usePartial;
   }
 });
 Object.defineProperty(exports, "useSelector", {
   enumerable: true,
   get: function () {
-    return _context.useSelector;
+    return _hooks.useSelector;
   }
 });
-Object.defineProperty(exports, "useStore", {
-  enumerable: true,
-  get: function () {
-    return _context.useStore;
-  }
-});
-var _store = require("./store");
-var _context = require("./context");
-var _createAsyncThunk = require("./createAsyncThunk");
-var _createPartial = require("./createPartial");
-var _middleware = require("./middleware");
-var _types = require("./types");
-Object.keys(_types).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _types[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _types[key];
-    }
-  });
-});
+var _createPartial = require("./core/createPartial");
+var _combinePartials = require("./core/combinePartials");
+var _provider = require("./core/provider");
+var _hooks = require("./core/hooks");
